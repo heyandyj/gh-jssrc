@@ -2,7 +2,7 @@
 ---
 # This workflow integrates ShiftLeft NG SAST with GitHub
 # Visit https://docs.shiftleft.io for help
-name: ShiftLeft
+name: Qwiet_preZero
 
 on:
   pull_request:
@@ -26,7 +26,7 @@ jobs:
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
-    - name: NextGen Static Analysis
+    - name: preZero Static Analysis
       run: java -version && ${GITHUB_WORKSPACE}/sl analyze --verbose --app gh-jssrc --container 18fgsa/s3-resource --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --jssrc .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
