@@ -2,7 +2,7 @@
 ---
 # This workflow integrates ShiftLeft NG SAST with GitHub
 # Visit https://docs.shiftleft.io for help
-name: Qwiet_preZero
+name: ShiftLeft
 
 on:
   pull_request:
@@ -26,13 +26,13 @@ jobs:
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
-    - name: preZero Static Analysis
-      run: java -version && ${GITHUB_WORKSPACE}/sl analyze --verbose --app gh-jssrc --container 18fgsa/s3-resource --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --jssrc .
+    - name: NextGen Static Analysis
+      run: ${GITHUB_WORKSPACE}/sl analyze --strict --wait --app gh-jssrc --container 18fgsa/s3-resource --tag branch=${{ github.head_ref || steps.extract_branch.outputs.branch }} --jssrc --cpg .
       env:
         SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        SHIFTLEFT_API_HOST: www.shiftleft.io
-        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
-        SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
+        SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
+        SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
    
   ## Uncomment the following section to enable build rule checking and enforcing.
   #Build-Rules: 
@@ -54,6 +54,6 @@ jobs:
     #       --github-token=${{ secrets.GITHUB_TOKEN }}
     #  env:
         #SHIFTLEFT_ACCESS_TOKEN: ${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}
-        #SHIFTLEFT_API_HOST: www.shiftleft.io
-        #SHIFTLEFT_GRPC_API_HOST: api.shiftleft.io:443
-        #SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.shiftleft.io:443
+        #SHIFTLEFT_API_HOST: www-ext.stg.shiftleft.io
+        #SHIFTLEFT_GRPC_API_HOST: api-ext.stg.shiftleft.io:443
+        #SHIFTLEFT_GRPC_TELEMETRY_HOST: telemetry.stg.shiftleft.io:443
